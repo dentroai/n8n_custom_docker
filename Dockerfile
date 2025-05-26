@@ -4,12 +4,13 @@ FROM n8nio/n8n:latest
 # Switch to root user to install packages
 USER root
 
-# Install bun
-RUN curl -fsSL https://bun.sh/install | bash
-ENV PATH="/root/.bun/bin:$PATH"
+# Install curl and bash (needed for bun installation)
+# These lines are no longer needed if not using bun
+# RUN apk add --no-cache curl bash
 
-# Install jsPDF and other external modules using bun
-RUN cd /usr/local/lib/node_modules/n8n && bun add jspdf
+# Install jsPDF globally using npm
+# npm is already available in the n8nio/n8n base image.
+RUN npm install -g jspdf
 
 # Switch back to the n8n user
 USER node
